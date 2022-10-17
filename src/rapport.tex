@@ -1,0 +1,148 @@
+\documentclass[answers, 11pt]{exam}
+\usepackage[french]{babel} 
+\usepackage[]{amsmath,amssymb}
+\usepackage[]{cleveref} 
+
+\begin{document}
+
+\title{RO05 - \'Evolution de la valeur d'un actif financier}
+\author{Maxime Delboulle, Pascal Quach}
+\maketitle
+
+Considérons une option européenne représentant un actif financier dont la
+valeur au temps $t$ est $S(t)$ pour $0 \leq t \leq T$, où $T$ est le temps de
+l’exercice de l’option. 
+
+Notons $m\in \mathbb{N}^*$ le nombre de sous-divisions de l’intervalle $[0, T]$
+et $h=\frac{T}{M}$.  
+
+Notons également $S_n = S(nh)$, pour $n=0, \dots, M$, les valeurs de l’actif
+aux instants $t= nh$.  L’équation d’évolution du prix de l’actif en temps
+discret s’écrit comme suit :
+
+\begin{equation}\label{eq:actif-financier}
+	S_{n+1} = S_n + \mu h S_n + \sigma h^{ \frac{1}{2} } S_n \xi_n,\quad n \geq 0 
+\end{equation}
+
+où $\xi_n, n\geq 0$ est une suite de v.a. iid de loi $\mathcal{N}(0, 1)$
+indépendante de $S_0$.
+
+\begin{questions}
+	\question 
+	Expliquer la construction de \cref{eq:actif-financier}.
+
+	\begin{solutionorbox}
+		Ici, on note la modélisation suivante:
+		
+		\begin{itemize}
+			\item $S(t)$, la valeur de l'actif financier au temps $t$.
+			\item $\mu$, le taux d'intérêt de l'actif
+			\item $\sigma$, la volatilité de l'actif
+			\item $(\xi_n)_{n\geq 0}$ représente du bruit
+		\end{itemize}
+
+		Dans l'équation d'évolution, chaque terme représente
+		respectivement le capital à l'instant présent, l'évolution de
+		l'actif, et la volatilité stochastique :
+
+		\begin{equation*}
+			S_{n+1} = \underbrace{S_n}_{\text{valeur précédente}} 
+			+ \underbrace{\mu h S_n}_{\text{intérêt}} 
+			+ \underbrace{\sigma h^{ \frac{1}{2} } S_n \xi_n}_{\text{bruit}}
+			,\quad n \geq 0 
+		\end{equation*}
+
+	\end{solutionorbox}
+
+	\question
+	Montrer que
+
+	\begin{equation*}
+		S(t) = S_0 \prod_{n=0}^{t-1} (1 + \mu h + \sigma h^{\frac{1}{2}}) \xi_n
+		,
+	\end{equation*}
+
+	et en déduire que 
+
+	\begin{equation*}
+		\ln \left( \frac{S(t)}{S_0} \right) = \sum_{n=0}^{t-1} \ln(1 + \mu h + \sigma h^{\frac{1}{2}}= \xi_n.
+	\end{equation*}
+
+	\begin{solutionorbox}
+		\begin{aligned*}
+				
+		\end{aligned**}	
+	\end{solutionorbox}
+
+	\question
+
+	En utilisant l'approximation $\ln(1 + \varepsilon) \approx \varepsilon - \frac{\varepsilon^2}{2}$, pour $\varepsilon \to 0$, et la loi des grands nombres, montrer que
+
+	\begin{equation*}
+		\ln \left(  \frac{S(t)}{S_0} \right) \approx \left( \mu - \frac{1}{2} \sigma^2 \right)t.
+	\end{equation*}
+
+	Ici, on a supposé que l'approximation proposée est valable lorsque $h\to 0$.
+
+	\begin{solutionorbox}
+		\dots
+	\end{solutionorbox}
+
+	\question
+	\`A l'aide du théorème de la limite centrale, montrer que l'approximation ci-dessus peut se préciser plus par la relation
+
+		\begin{equation*}
+			\ln \left( \frac{S(t)}{S_0} \right) \sim \mathcal{N} \left(  \left(  \mu - 1/2 \sigma^2 \right)t, \sigma^2 t \right).
+		\end{equation*}
+	
+	\begin{solutionorbox}
+		\dots
+	\end{solutionorbox}
+
+	\question
+	Conclure de la question précédente que
+	\begin{equation*}
+		S(t) = S_0 \exp \left(  \left(  \mu - \frac{1}{2}\sigma^2 \right)t + \sigma \sqrt{
+		t}Z \right),
+	\end{equation*}
+
+	où $Z\sim \mathcal{N}(0, 1)$.
+	
+	\begin{solutionorbox}
+		\dots
+	\end{solutionorbox}
+
+	\question
+	Expliquer pourquoi la v.a. $\frac{S(t)}{S_0}$, ($T$ fixé) suit-elle une
+	loi log-normale ? Spécifier ses paramètres.
+	
+	\begin{solutionorbox}
+		\dots
+	\end{solutionorbox}
+
+	\question
+	Donner un intervalle de confiance de valeur l'option au temps
+	d'exercice au niveau $\alpha$.
+
+	\begin{solutionorbox}
+		\dots
+	\end{solutionorbox}
+
+	\question
+	
+	\textit{Monte Carlo.} Effectuer 1000 réalisations des v.a. $S_n$, pour
+	$n=0,\dots,M$, et donner l'évolution moyenne de la valeur de l'actif.
+	Les données sont : 
+	
+	\begin{itemize}
+		\item $T=1$
+		\item $h = 0.05$
+		\item $S_0 = 1$
+		\item $\mu = 0.05$
+		\item $ \sigma = 0.3$
+	\end{itemize}
+
+\end{questions}
+
+
+\end{document}

@@ -1,0 +1,12 @@
+[doc]
+name = "rapport"
+bundle = "https://relay.fullyjustified.net/default_bundle_v32.tar"
+
+[[output]]
+name = "rapport"
+type = "pdf"
+tex_format = "latex"
+shell_escape = false
+preamble = ""
+index = "rapport.tex"
+postamble = ""
