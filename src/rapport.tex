@@ -2,6 +2,7 @@
 \usepackage[french]{babel} 
 \usepackage[]{amsmath,amssymb}
 \usepackage[]{cleveref} 
+\usepackage[]{cancel} 
 
 \begin{document}
 
@@ -32,7 +33,7 @@ indépendante de $S_0$.
 	Expliquer la construction de \cref{eq:actif-financier}.
 
 	\begin{solutionorbox}
-		Ici, on note la modélisation suivante:
+		Ici, on note la modélisation suivante~:
 		
 		\begin{itemize}
 			\item $S(t)$, la valeur de l'actif financier au temps $t$.
@@ -43,7 +44,7 @@ indépendante de $S_0$.
 
 		Dans l'équation d'évolution, chaque terme représente
 		respectivement le capital à l'instant présent, l'évolution de
-		l'actif, et la volatilité stochastique :
+		l'actif et la volatilité stochastique~:
 
 		\begin{equation*}
 			S_{n+1} = \underbrace{S_n}_{\text{valeur précédente}} 
@@ -58,31 +59,31 @@ indépendante de $S_0$.
 	Montrer que
 
 	\begin{equation*}
-		S(t) = S_0 \prod_{n=0}^{t-1} (1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n
+		S_M = S_0 \prod_{n=0}^{M} (1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n
 )		,
 	\end{equation*}
 
 	et en déduire que 
 
 	\begin{equation*}
-		\ln \left( \frac{S(t)}{S_0} \right) = \sum_{n=0}^{t-1} \ln(1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n).
+		\ln \left( \frac{S_M}{S_0} \right) = \sum_{n=0}^{M-1} \ln(1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n).
 	\end{equation*}
 
 	\begin{solutionorbox}
-		On factorise $S(t)$ tel que 
+		Pour $M\in \mathbb{N}^*$ fixe, on factorise $S_M$ tel que 
 		\begin{equation*}
-		S(t) = \left[ 1 + \mu h + \sigma h^{\frac{1}{2}} \xi_{t-1}\right] S(t-1).
+			S_M = \left[ 1 + \mu h + \sigma h^{\frac{1}{2}} \xi_{n}\right] S_{M-1}
 		\end{equation*}	
 
 		Par récurrence,
 
 		\begin{equation*}
-			S(t) = S_0 \prod_{n=0}^{t-1}  (1 + \mu h + \sigma h^{\frac{1}{2}}\xi_n
+			S_M = S_0 \prod_{n=0}^{M-1}  (1 + \mu h + \sigma h^{\frac{1}{2}}\xi_n
 ) 		\end{equation*}
 		
 		Alors, on obtient,
 		\begin{equation}\label{eq:q2}
-			\ln \left( \frac{S(t)}{S_0} \right) = \sum_{n=0}^{t-1} \ln(1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n)
+			\ln \left( \frac{S_M}{S_0} \right) = \sum_{n=0}^{M-1} \ln(1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n)
 			,
 		\end{equation}
 
@@ -108,16 +109,20 @@ indépendante de $S_0$.
 
 		\begin{align*}
 			\ln \left( 1 + \mu h + \sigma h^{\frac{1}{2}}\xi_k \right) &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \mu h + \sigma h^{\frac{1}{2}}\xi_k \right)^2\\
-									      &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \mu^2 h^2 + 2\mu h^{\frac{3}{2}} \xi_k  + \sigma^2 h \xi_k^2 \right)\\
-									      &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \sigma^2 h \xi_k^2 & h\to 0, \text{h très grand devant}\, h^{1 + \delta}, \delta > 0
+										   &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \cancel{\mu^2 h^2} + \cancel{2\mu h^{\frac{3}{2}}} \xi_k  + \sigma^2 h \xi_k^2 \right) & h\to 0, \text{h très grand devant}\, h^{1 + \delta}, \delta > 0
+\\
+									      &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \sigma^2 h \xi_k^2 	
 		\end{align*}
+
+		Le résultat précédent (\cref{eq:q2}) est valable pour tout
+		$n=0,\dots,M$.
 
 		Finalement, en remplaçant l'approximation obtenue dans
 		\cref{eq:q2}, on obtient~:
 
 		\begin{align*}
-			\ln \left(  \frac{S(t)}{S_0} \right) &\approx \sum_{n=0}^{t-1}\left(  \mu h + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)  \\
-							     &\approx \dots
+			\ln \left(  \frac{S(t)}{S_0} \right) &\approx \sum_{n=0}^{M-1}\left(  \mu h + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)  \\
+							     &\approx 
 			.
 		\end{align*}
 	\end{solutionorbox}
