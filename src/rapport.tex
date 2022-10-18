@@ -107,12 +107,12 @@ indépendante de $S_0$.
 
 		Alors,
 
-		\begin{align*}
+		\begin{align}\label{eq:approx}
 			\ln \left( 1 + \mu h + \sigma h^{\frac{1}{2}}\xi_k \right) &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \mu h + \sigma h^{\frac{1}{2}}\xi_k \right)^2\\
-										   &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \cancel{\mu^2 h^2} + \cancel{2\mu h^{\frac{3}{2}}} \xi_k  + \sigma^2 h \xi_k^2 \right) & h\to 0, \text{h très grand devant}\, h^{1 + \delta}, \delta > 0
+										   &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \left( \cancel{\mu^2 h^2} + \cancel{2\mu h^{\frac{3}{2}}} \xi_k  + \sigma^2 h \xi_k^2 \right) & h\to 0, h\ggg h^{1 + \delta}, \delta > 0
 \\
 									      &\approx \mu h + \sigma h^{\frac{1}{2}} \xi_k - \frac{1}{2} \sigma^2 h \xi_k^2 	
-		\end{align*}
+		\end{align}
 
 		Le résultat précédent (\cref{eq:q2}) est valable pour tout
 		$n=0,\dots,M$.
@@ -121,12 +121,13 @@ indépendante de $S_0$.
 		\cref{eq:q2}, on obtient~:
 
 		\begin{align*}
-			\ln \left(  \frac{S(t)}{S_0} \right) &\approx \sum_{n=0}^{M-1}\left(  \mu h + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)  \\
-							     &\approx 
-			.
+			\ln \left(  \frac{S(t)}{S_0} \right) &\approx \sum_{n=0}^{M-1}\left(  h\mu + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)  \\
+							     &\approx M h\mu + \sigma h^\frac{1}{2} \sum_{n=0}^{M-1} \xi_n - \frac{1}{2} \sigma^2 h \sum_{n=0}^{M-1} \xi_n^2 & \text{LGN}\\
+							     &\approx M h \mu + \sigma M h^\frac{1}{2} \underbrace{\mathbb{E}\left[ \xi_n \right]}_{0} - \frac{1}{2} \sigma^2 Mh\underbrace{\mathbb{E}\left[ \xi_n^2 \right]}_{\text{Var}\left[\xi_n \right] - (\mathbb{E}\left[\xi_n \right])^2 } & (\xi_n)_{n\geq 0} \sim \mathcal{N}(0, 1)\\
+							     &\approx \left(\mu - \frac{1}{2} \sigma^2  \right) \underbrace{Mh}_{t}\\
+				\ln \left(  \frac{S(t)}{S_0} \right) &\approx \left(\mu - \frac{1}{2} \sigma^2  \right) t & \blacksquare\\
 		\end{align*}
 	\end{solutionorbox}
-	
 
 	\question
 	\`A l'aide du théorème de la limite centrale, montrer que l'approximation ci-dessus peut se préciser plus par la relation
@@ -136,7 +137,39 @@ indépendante de $S_0$.
 		\end{equation*}
 	
 	\begin{solutionorbox}
-		\dots
+		En notant la suite de v.a. iid $(X_n)_{n=0,\dots,M}$, avec $X_n = \ln \left( 1 + \mu h + \sigma h^\frac{1}{2} \xi_n \right)$, on applique le théorème centrale limite~:
+		\begin{align*}
+			X_{1} + \dots + X_{M} \sim \mathcal{N}\left(M \mathbb{E}\left[X_1 \right], M \text{Var}\left[X_1 \right]\right)
+		\end{align*}
+
+		à 
+
+		\begin{equation*}
+			\ln \left(  \frac{S(t)}{S_0} \right) \approx \sum_{n=0}^{M-1}\left(  h\mu + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)
+		\end{equation*}
+
+		Alors, 
+
+		\begin{align*}			
+			\mathbb{E}\left[\mu h + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2\right] &= \mu h + \sigma h^{\frac{1}{2}} \underbrace{\mathbb{E}\left[\xi_n \right]}_{0} - \frac{1}{2} \sigma^2 h \underbrace{\mathbb{E}\left[ \xi_n\right]}_{1}\\
+													  \mathbb{E}\left[X_1 \right] &= h \left( \mu - \frac{\sigma^2}{2} \right)\\
+													  M\mathbb{E}\left[X_1 \right] &= \underbrace{Mh}_{t} \left( \mu - \frac{\sigma^2}{2} \right)
+		\end{align*}
+
+		\begin{align*}
+			\text{Var}\left[X_1 \right] &= \mathbb{E}\left[X_1^2 \right] - \left( \mathbb{E}\left[X_1 \right] \right)^2\\
+						    &= \mathbb{E}\left[\left(\mu h + \sigma h^{\frac{1}{2}} \xi_n - \frac{1}{2} \sigma^2 h \xi_n^2 \right)^2 \right] - h^2 \left( mu - \frac{\sigma^2}{2} \right)^2 & h\to 0, h\ggg h^{1 + \delta}, \delta > 0\\
+						    &= \mathbb{E}\left[\sigma^2 h \xi_n \right]\\
+			\text{Var}\left[X_1 \right] &= h\sigma^2\\
+			M \text{Var}\left[X_1 \right] &= \underbrace{Mh}_{t}\sigma^2\\
+		\end{align*}	
+
+		Finalement,
+
+		\begin{equation*}
+			\ln \left( \frac{S(t)}{S_0} \right)\sim \mathcal{N} \left( t \left( \mu - \frac{\sigma^2}{2}\right), t \sigma^2\right)
+		\end{equation*}
+
 	\end{solutionorbox}
 
 	\question
