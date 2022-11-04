@@ -3,6 +3,7 @@
 \usepackage[]{amsmath,amssymb}
 \usepackage[]{cleveref} 
 \usepackage[]{cancel} 
+\usepackage[]{minted} 
 
 \begin{document}
 
@@ -185,16 +186,17 @@ indépendante de $S_0$.
 		On pose :
 		\begin{itemize}
 			\item $Y=\ln \left( \frac{S(t)}{S_0} \right)$,
-			\item $\mu\prime = \left( \mu - \frac{1}{2} \sigma^2 \right)t$,
-			\item $\sigma\prime = \sigma^2 t$,
-			\item $Z = \frac{Y - \mu\prime}{\sigma\prime} \sim \mathcal{N}(0, 1)$
+			\item $\mu' = \left( \mu - \frac{1}{2} \sigma^2 \right)t$,
+			\item $\sigma' = \sigma \sqrt{t}$,
+			\item $Z = \frac{Y - \mu'}{\sigma'} \sim \mathcal{N}(0, 1)$
 		\end{itemize}
 
 		ce qui donne immédiatement 
 
-		\begin{equation*}
+		\begin{align}%
+			\label{eq:st}
 			S(t) = S_0\exp \left( \left( \mu - \frac{1}{2}\sigma^2 \right)t + \sigma \sqrt{t}Z\right)
-		\end{equation*}
+		\end{align}
 		
 	\end{solutionorbox}
 
@@ -203,7 +205,20 @@ indépendante de $S_0$.
 	loi log-normale ? Spécifier ses paramètres.
 	
 	\begin{solutionorbox}
-		\dots
+		Si $X\sim \mathcal{N}(\mu, \sigma^2)$, alors, $\exp(X)\sim
+		\text{LN}(\mu, \sigma^2)$.
+
+		Ici, en considérant $Y =\ln \left( \frac{S(t)}{S_0} \right) = 
+		\frac{Z - \mu'}{\sigma'}\sim \mathcal{N}(\mu', \sigma'^2)$, 
+		on obtient alors,
+
+		\[
+			\frac{S(t)}{S_0}\sim \text{LN}\left( 
+			\left( \mu - \frac{1}{2}\sigma^2 \right)t, \sigma^2 t
+			\right)
+		.\] 
+
+
 	\end{solutionorbox}
 
 	\question
@@ -211,7 +226,28 @@ indépendante de $S_0$.
 	d'exercice au niveau $\alpha$.
 
 	\begin{solutionorbox}
-		\dots
+		On calcule un intervalle de confiance bilatéral pour $Z$, et on
+		en déduit l'intervalle de confiance pour $S(t)$.
+
+		On note $u_{\alpha} = \Phi^{-1}(\alpha)$, le quantile d'ordre
+		$\alpha$ de la loi normale centrée-réduite.
+
+		Alors,
+		\[
+			Z = \frac{1}{\sigma'} \left( 
+				\ln\left( \frac{S(t)}{S_0}\right) - \mu' 
+			\right)
+		.\] 
+
+		\begin{align*}
+			\mathbb{P}\left( u_{\alpha / 2} \leq Z \ \leq u_{1 - \alpha / 2} \right) &= 1 - \alpha & u_\alpha \text{ symétrique}\\
+			\mathbb{P}\left( u_{\alpha / 2} \leq \frac{1}{\sigma'}\left( \ln\left( \frac{S(t)}{S_0}\right) - \mu' \right) \leq u_{1 - \alpha / 2} \right) &= 1 - \alpha & \sigma' > 0\\
+			\mathbb{P}\left( S_0\exp\left(\sigma'u_{\alpha / 2} + \mu'\right) \leq S(t) \leq S_0\exp\left(\sigma'u_{1 - \alpha / 2} + \mu'\right) \right) &= 1 - \alpha & \exp\text{ strictement croissante}\\
+		\end{align*}
+
+		Donc l'intervalle de confiance au niveau $\alpha$ pour $S(t)$ est \[
+			\text{IC}_\alpha = \left[ S_0\exp\left(\sigma\sqrt{t}u_{\alpha / 2} + \left( \mu - \frac{1}{2} \sigma^2 \right)t\right); S_0\exp\left(\sigma\sqrt{t}u_{1 - \alpha / 2} + \left( \mu - \frac{1}{2} \sigma^2 \right)t\right)\right]
+		.\] 
 	\end{solutionorbox}
 
 	\question
@@ -227,6 +263,39 @@ indépendante de $S_0$.
 		\item $\mu = 0.05$
 		\item $ \sigma = 0.3$
 	\end{itemize}
+
+	\begin{solutionorbox}
+	\begin{minted}[breaklines, frame=single]{python}
+import numpy as np
+
+# paramètres du problème
+mu = 0.05
+sigma = 0.3
+sigma2 = sigma**2
+S0 = 1
+h = 0.05
+T = 1
+M = int(T/h) # floor
+N = 1000
+
+def get_M():
+    """Retourne une liste de S(t), t allant de 1 à M. """
+    Z = np.random.rand(M)
+    SM = [
+        S0 * np.exp((mu - sigma2/2) * t + sigma * np.sqrt(t) * Z[t]) 
+        for t in range(M)
+    ]
+    SMF = [S0] + SM
+    return SMF
+
+# génération d'une liste de N échantillons S(t) ; t allant de 1 à M
+SMN = np.array([get_M() for n in range(N)])
+
+# affichage du gain moyen de l'actif boursier de 1 à M (N éléments)
+print(f"gain moyen: {(SMN[:, -1] - S0).mean():.2f}")
+	\end{minted}
+		
+	\end{solutionorbox}
 
 \end{questions}
 
