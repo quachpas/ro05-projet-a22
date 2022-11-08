@@ -3,7 +3,11 @@
 \usepackage[]{amsmath,amssymb}
 \usepackage[]{cleveref} 
 \usepackage[]{cancel} 
-\usepackage[]{minted} 
+\usepackage[]{minted}
+\usepackage{graphicx}
+\usepackage[]{subcaption}
+\usepackage{caption}
+\graphicspath{{./src/}}
 
 \begin{document}
 
@@ -269,38 +273,43 @@ indépendante de $S_0$.
 
 	\begin{solutionorbox}
 	\begin{minted}[breaklines, frame=single]{python}
-import numpy as np
+import numpy as np ; import math ; from scipy.stats import norm
 
 # paramètres du problème
-mu = 0.05
-sigma = 0.3
-sigma2 = sigma**2
-S0 = 1
-h = 0.05
-T = 1
-M = int(T/h) # floor
-N = 1000
+mu = 0.05 ; alpha = 0.1
+sigma = 0.3 ; sigma2 = sigma**2
+S0 = 1 ; h = 0.05 ; T = 1
+M = int(T/h) ; N = 1000
 
-def get_M():
-    """Retourne une liste de S(t), t allant de 1 à M. """
+def get_IC (t) :
+    """ get IC """    
+    return (S0 * np.exp(
+                    sigma * math.sqrt(t) * np.array([norm.ppf(alpha/2), norm.ppf(1 - alpha/2)]) + 
+                    (mu - sigma2/2) * t))
+def get_S_t () :
+    """ retourne une liste de S(t) ; t allant de 1 à M. et intervalle de confiance IC """
     Z = np.random.rand(M)
-    SM = [
-        S0 * np.exp((mu - sigma2/2) * t + sigma * np.sqrt(t) * Z[t]) 
-        for t in range(M)
-    ]
-    SMF = [S0] + SM
-    return SMF
+    SM =[
+        S0 * np.exp((mu - sigma2/2) * t + sigma * np.sqrt(t) * Z[t])
+        for t in range(M)]
+    IC = np.array([get_IC(t) for t in range(M)])
+    return {"SM":SM, "IC":IC}
 
 # génération d'une liste de N échantillons S(t) ; t allant de 1 à M
-SMN = np.array([get_M() for n in range(N)])
+SMN = np.array([get_S_t()["SM"] for n in range(N)])
 
 # affichage du gain moyen de l'actif boursier de 1 à M (N éléments)
 print(f"gain moyen: {(SMN[:, -1] - S0).mean():.2f}")
-	\end{minted}
+
+\end{minted}
 		
-	\end{solutionorbox}
+Le gain  moyen est de 1,3. Nous obtenons finalement les courbes suivantes :
 
+\includegraphics[width=0.45\linewidth]{échantillon.png}
+\includegraphics[width=0.45\linewidth]{moyenne.png}
+\captionof{figure}{le graphique de gauche représente l'évolution de 4 actifs financiers avec un intervalle de confiance à 90 \%. La figure de droite représente l'évolution moyen de 1.000 actifs.}
+
+\end{solutionorbox}
 \end{questions}
-
 
 \end{document}
