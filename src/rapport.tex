@@ -15,7 +15,7 @@ Considérons une option européenne représentant un actif financier dont la
 valeur au temps $t$ est $S(t)$ pour $0 \leq t \leq T$, où $T$ est le temps de
 l’exercice de l’option. 
 
-Notons $m\in \mathbb{N}^*$ le nombre de sous-divisions de l’intervalle $[0, T]$
+Notons $M\in \mathbb{N}^*$ le nombre de sous-divisions de l’intervalle $[0, T]$
 et $h=\frac{T}{M}$.  
 
 Notons également $S_n = S(nh)$, pour $n=0, \dots, M$, les valeurs de l’actif
@@ -60,7 +60,7 @@ indépendante de $S_0$.
 	Montrer que
 
 	\begin{equation*}
-		S_M = S_0 \prod_{n=0}^{M} (1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n
+		S_M = S_0 \prod_{n=0}^{M-1} (1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n
 )		,
 	\end{equation*}
 
@@ -88,7 +88,10 @@ indépendante de $S_0$.
 			,
 		\end{equation}
 
-		car $\ln$ est strictement croissante.
+		car on fait l'hypothèse que $\forall n \geq 0 : S_M > S_0 > 0$. De même, pour calculer la somme des log, on doit avoir
+		
+		$$\forall n \geq 0 : 1 + \mu h + \sigma h^{\frac{1}{2}} \xi_n > 0 \iff \forall n \geq 0 : \xi_n > \frac{-1 + \mu h^{\frac{1}{2}}}{\sigma}  $$
+		Ces inégalités ne sont pas systématiquement vérifiées pour tout n. On en fait l'hypothèse.
 
 	\end{solutionorbox}
 
